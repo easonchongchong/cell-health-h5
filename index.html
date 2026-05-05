@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>细胞健康科普 — 你身体里的37万亿个细胞</title>
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", sans-serif;
+  background: #0a1628;
+  color: #fff;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* 粒子背景 */
+#particles {
+  position: fixed;
+  top:0; left:0; width:100%; height:100%;
+  pointer-events: none;
+  z-index: 0;
+}
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(0,191,255,0.3);
+  animation: float 8s infinite ease-in-out;
+}
+@keyframes float {
+  0%,100% { transform: translateY(0) scale(1); opacity: 0.3; }
+  50% { transform: translateY(-30px) scale(1.2); opacity: 0.6; }
+}
+
+/* 通用section */
+.section {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px 20px;
+  text-align: center;
+}
+
+/* 封面 */
+.hero-badge {
+  display: inline-block;
+  background: rgba(0,150,199,0.2);
+  border: 1px solid rgba(0,191,255,0.4);
+  color: #00bfff;
+  font-size: 13px;
+  padding: 6px 16px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+  letter-spacing: 2px;
+}
+.hero-title {
+  font-size: 36px;
+  font-weight: 800;
+  line-height: 1.3;
+  margin-bottom: 16px;
+  background: linear-gradient(135deg, #fff 0%, #00bfff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.hero-subtitle {
+  font-size: 16px;
+  color: #90caf9;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 40px;
+}
+.hero-number {
+  font-size: 72px;
+  font-weight: 900;
+  color: #00bfff;
+  text-shadow: 0 0 40px rgba(0,191,255,0.4);
+  margin: 20px 0;
+}
+.hero-number-label {
+  font-size: 14px;
+  color: #90caf9;
+  margin-bottom: 40px;
+}
+.scroll-hint {
+  animation: bounce 2s infinite;
+  color: rgba(144,202,249,0.6);
+  font-size: 13px;
+  margin-top: 40px;
+}
+@keyframes bounce {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}
+
+/* 数据卡片 */
+.data-section { background: #0f1a2e; }
+.data-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 360px;
+  width: 100%;
+  margin-top: 30px;
+}
+.data-card {
+  background: rgba(26,46,74,0.6);
+  border: 1px solid rgba(0,191,255,0.15);
+  border-radius: 16px;
+  padding: 20px 14px;
+  backdrop-filter: blur(10px);
+  transition: transform 0.3s, border-color 0.3s;
+}
+.data-card:active { transform: scale(0.96); }
+.data-card-num {
+  font-size: 28px;
+  font-weight: 800;
+  color: #00bfff;
+  margin-bottom: 6px;
+}
+.data-card-label {
+  font-size: 12px;
+  color: #90caf9;
+  line-height: 1.4;
+}
+
+/* 科普卡片 */
+.card-section { background: #0a1628; }
+.section-title {
+  font-size: 26px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.section-subtitle {
+  font-size: 14px;
+  color: #90caf9;
+  margin-bottom: 30px;
+}
+.cards-row {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  max-width: 360px;
+  width: 100%;
+}
+.info-card {
+  background: rgba(26,46,74,0.5);
+  border: 1px solid rgba(0,191,255,0.2);
+  border-radius: 20px;
+  padding: 24px 20px;
+  text-align: left;
+  position: relative;
+  overflow: hidden;
+}
+.info-card::before {
+  content: '';
+  position: absolute;
+  top:0; left:0; width:4px; height:100%;
+  background: linear-gradient(180deg, #00bfff, #0096c7);
+}
+.card-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+.card-title {
+  font-size: 18px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.card-desc {
+  font-size: 13px;
+  color: #b0c4de;
+  line-height: 1.7;
+}
+
+/* 时间轴 */
+.timeline-section { background: #0f1a2e; }
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  max-width: 340px;
+  width: 100%;
+  margin-top: 20px;
+}
+.timeline-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px 0;
+  border-left: 3px solid;
+  padding-left: 20px;
+  position: relative;
+}
+.timeline-item::before {
+  content: '';
+  position: absolute;
+  left: -7px; top: 22px;
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: currentColor;
+}
+.timeline-item.green { border-color: #4caf50; color: #4caf50; }
+.timeline-item.yellow { border-color: #ffc107; color: #ffc107; }
+.timeline-item.orange { border-color: #ff9800; color: #ff9800; }
+.timeline-item.red { border-color: #f44336; color: #f44336; }
+.timeline-content { color: #fff; }
+.timeline-title { font-weight: 700; font-size: 16px; margin-bottom: 4px; }
+.timeline-desc { font-size: 13px; color: #b0c4de; line-height: 1.5; }
+.timeline-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  margin-top: 6px;
+  background: rgba(255,255,255,0.1);
+}
+
+/* 自测 */
+.test-section { background: #0a1628; }
+.test-list {
+  max-width: 360px;
+  width: 100%;
+  margin-top: 20px;
+}
+.test-item {
+  background: rgba(26,46,74,0.4);
+  border: 1px solid rgba(0,191,255,0.1);
+  border-radius: 12px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  text-align: left;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: all 0.3s;
+}
+.test-item.active-yes {
+  border-color: rgba(244,67,54,0.4);
+  background: rgba(244,67,54,0.1);
+}
+.test-item.active-no {
+  border-color: rgba(76,175,80,0.4);
+  background: rgba(76,175,80,0.1);
+}
+.test-text { font-size: 14px; flex:1; padding-right: 10px; }
+.test-btns { display: flex; gap: 8px; }
+.test-btn {
+  width: 44px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: #fff;
+  font-size: 12px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.test-btn.selected-yes {
+  background: #f44336;
+  border-color: #f44336;
+}
+.test-btn.selected-no {
+  background: #4caf50;
+  border-color: #4caf50;
+}
+.test-result {
+  margin-top: 24px;
+  padding: 20px;
+  border-radius: 16px;
+  background: rgba(0,150,199,0.15);
+  border: 1px solid rgba(0,191,255,0.3);
+  display: none;
+}
+.test-result.show { display: block; animation: fadeIn 0.5s; }
+@keyframes fadeIn { from { opacity:0; transform: translateY(10px);} to { opacity:1; transform: translateY(0);} }
+.result-score { font-size: 48px; font-weight: 800; color: #00bfff; }
+.result-label { font-size: 18px; font-weight: 700; margin: 8px 0; }
+.result-desc { font-size: 13px; color: #90caf9; line-height: 1.6; }
+
+/* CTA */
+.cta-section {
+  background: linear-gradient(180deg, #0f1a2e 0%, #1a2e4a 100%);
+  min-height: auto;
+  padding: 80px 20px;
+}
+.cta-title {
+  font-size: 24px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.4;
+}
+.cta-subtitle {
+  font-size: 14px;
+  color: #90caf9;
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 30px;
+}
+.cta-btn {
+  display: inline-block;
+  background: linear-gradient(135deg, #0096c7, #00bfff);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 700;
+  padding: 16px 40px;
+  border-radius: 30px;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 4px 20px rgba(0,191,255,0.3);
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+.cta-btn:active {
+  transform: scale(0.95);
+  box-shadow: 0 2px 10px rgba(0,191,255,0.2);
+}
+.phone-box {
+  margin-top: 20px;
+  font-size: 14px;
+  color: #90caf9;
+}
+.phone-box a {
+  color: #00bfff;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+/* 入场动画 */
+.fade-in {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: all 0.8s ease-out;
+}
+.fade-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* 滚动数字动画 */
+.count-up {
+  font-variant-numeric: tabular-nums;
+}
+</style>
+</head>
+<body>
+
+<!-- 粒子背景 -->
+<div id="particles"></div>
+
+<!-- 封面 -->
+<section class="section hero-section">
+  <div class="hero-badge fade-in">细胞健康科普</div>
+  <h1 class="hero-title fade-in">你身体里的<br>37万亿个细胞</h1>
+  <p class="hero-subtitle fade-in">每天，它们都在为你工作。<br>但你真的了解它们吗？</p>
+  <div class="hero-number count-up fade-in" data-target="37">0</div>
+  <p class="hero-number-label fade-in">万亿个细胞</p>
+  <div class="scroll-hint fade-in">↓ 向下滚动探索</div>
+</section>
+
+<!-- 震撼数据 -->
+<section class="section data-section">
+  <h2 class="section-title fade-in">10个让你坐不住的数字</h2>
+  <p class="section-subtitle fade-in">你的健康，在细胞层面正在发生什么？</p>
+  <div class="data-grid fade-in">
+    <div class="data-card">
+      <div class="data-card-num count-up" data-target="3000" data-suffix="亿">0</div>
+      <div class="data-card-label">每天死亡更新的细胞</div>
+    </div>
+    <div class="data-card">
+      <div class="data-card-num count-up" data-target="6000" data-suffix="个">0</div>
+      <div class="data-card-label">每天产生的癌细胞</div>
+    </div>
+    <div class="data-card">
+      <div class="data-card-num" style="color:#ffc107;">90%</div>
+      <div class="data-card-label">疾病与细胞功能异常有关</div>
+    </div>
+    <div class="data-card">
+      <div class="data-card-num" style="color:#ff9800;">70%</div>
+      <div class="data-card-label">的人处于亚健康状态</div>
+    </div>
+    <div class="data-card">
+      <div class="data-card-num" style="color:#f44336;">30岁</div>
+      <div class="data-card-label">干细胞活力开始下降</div>
+    </div>
+    <div class="data-card">
+      <div class="data-card-num" style="color:#f44336;">40岁</div>
+      <div class="data-card-label">免疫细胞断崖式下跌</div>
+    </div>
+  </div>
+</section>
+
+<!-- 干细胞科普 -->
+<section class="section card-section">
+  <h2 class="section-title fade-in">认识身体的"万能修理工"</h2>
+  <p class="section-subtitle fade-in">干细胞：需要什么，就变成什么</p>
+  <div class="cards-row fade-in">
+    <div class="info-card">
+      <div class="card-icon">🛠️</div>
+      <div class="card-title">什么是干细胞？</div>
+      <div class="card-desc">
+        你身体里有肝细胞、心肌细胞、神经细胞……它们一辈子不改行。但干细胞还没"定型"，哪里坏了，它就变身成那个位置的细胞去修。
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="card-icon">🩹</div>
+      <div class="card-title">皮肤受伤 → 修复</div>
+      <div class="card-desc">
+        皮肤划一道口子，干细胞从骨髓/脂肪里赶来，变身成皮肤细胞，把口子补上。
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="card-icon">🦵</div>
+      <div class="card-title">关节磨损 → 再生</div>
+      <div class="card-desc">
+        膝盖软骨磨薄了，干细胞注入关节，变成软骨细胞，长出新的软骨垫——不是止痛，是长出新零件。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 免疫细胞科普 -->
+<section class="section card-section">
+  <h2 class="section-title fade-in">认识身体的"保安部队"</h2>
+  <p class="section-subtitle fade-in">免疫细胞：24小时巡逻，抓坏人、清垃圾</p>
+  <div class="cards-row fade-in">
+    <div class="info-card">
+      <div class="card-icon">🚨</div>
+      <div class="card-title">NK细胞 = 特警</div>
+      <div class="card-desc">
+        反应最快，看见可疑分子直接干掉。不需要搜查令，凭直觉抓坏人。
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="card-icon">🔍</div>
+      <div class="card-title">T细胞 = 刑警</div>
+      <div class="card-desc">
+        精准识别特定坏人，不误伤好人。有通缉令才动手，专业又精准。
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="card-icon">📋</div>
+      <div class="card-title">B细胞 = 情报部</div>
+      <div class="card-desc">
+        制造抗体，画通缉令。下次同样的坏人再来，全身体立刻认出并围剿。
+      </div>
+    </div>
+    <div class="info-card">
+      <div class="card-icon">🧹</div>
+      <div class="card-title">巨噬细胞 = 清洁工</div>
+      <div class="card-desc">
+        吃掉死细胞和代谢垃圾。如果它停工，身体就像堆满垃圾的房间，容易发炎、衰老。
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 时间轴 -->
+<section class="section timeline-section">
+  <h2 class="section-title fade-in">细胞病变的不可逆过程</h2>
+  <p class="section-subtitle fade-in">从"亚健康"到"病变"，是一条滑坡</p>
+  <div class="timeline fade-in">
+    <div class="timeline-item green">
+      <div class="timeline-content">
+        <div class="timeline-title">🟢 正常状态</div>
+        <div class="timeline-desc">细胞活力充足，干细胞随时待命，免疫细胞巡逻严密</div>
+        <div class="timeline-tag">⭐⭐⭐⭐⭐ 最佳状态</div>
+      </div>
+    </div>
+    <div class="timeline-item yellow">
+      <div class="timeline-content">
+        <div class="timeline-title">🟡 亚健康（黄金干预期）</div>
+        <div class="timeline-desc">开始觉得累，免疫力偶尔打盹，干细胞响应变慢。但你还没"病"。</div>
+        <div class="timeline-tag">⭐⭐⭐ 完全可逆</div>
+      </div>
+    </div>
+    <div class="timeline-item orange">
+      <div class="timeline-content">
+        <div class="timeline-title">🟠 细胞损伤（关键转折）</div>
+        <div class="timeline-desc">细胞结构异常，慢性炎症持续，干细胞显著减少。开始有"指标异常"。</div>
+        <div class="timeline-tag">⭐⭐ 部分可逆</div>
+      </div>
+    </div>
+    <div class="timeline-item red">
+      <div class="timeline-content">
+        <div class="timeline-title">🔴 病变/疾病（不可逆）</div>
+        <div class="timeline-desc">器官功能障碍，确诊高血压/糖尿病/关节炎。部分细胞已死亡，无法再生。</div>
+        <div class="timeline-tag">⭐ 极难逆转</div>
+      </div>
+    </div>
+  </div>
+  <p style="margin-top:30px; color:#f44336; font-weight:700; font-size:15px; max-width:340px;">
+    ⚠️ 等医院查出来"有病"，往往已经是第三、第四阶段了。
+  </p>
+</section>
+
+<!-- 自测 -->
+<section class="section test-section">
+  <h2 class="section-title fade-in">细胞健康快速自测</h2>
+  <p class="section-subtitle fade-in">10道题，1分钟，测测你的细胞状态</p>
+  <div class="test-list fade-in" id="testList">
+    <div class="test-item" data-q="1">
+      <div class="test-text">1. 每周感到明显疲惫超过3天</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(1,'yes')">是</button>
+        <button class="test-btn" onclick="answer(1,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="2">
+      <div class="test-text">2. 需要闹钟才能醒，醒来还累</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(2,'yes')">是</button>
+        <button class="test-btn" onclick="answer(2,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="3">
+      <div class="test-text">3. 伤口愈合速度比5年前慢</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(3,'yes')">是</button>
+        <button class="test-btn" onclick="answer(3,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="4">
+      <div class="test-text">4. 每年感冒/发烧超过2次</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(4,'yes')">是</button>
+        <button class="test-btn" onclick="answer(4,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="5">
+      <div class="test-text">5. 皮肤状态比同龄人差</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(5,'yes')">是</button>
+        <button class="test-btn" onclick="answer(5,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="6">
+      <div class="test-text">6. 经常忘记近期小事</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(6,'yes')">是</button>
+        <button class="test-btn" onclick="answer(6,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="7">
+      <div class="test-text">7. 长期慢性炎症（牙龈/肠胃/关节）</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(7,'yes')">是</button>
+        <button class="test-btn" onclick="answer(7,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="8">
+      <div class="test-text">8. 血压/血糖/血脂在正常值上限</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(8,'yes')">是</button>
+        <button class="test-btn" onclick="answer(8,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="9">
+      <div class="test-text">9. 每周运动少于2次</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(9,'yes')">是</button>
+        <button class="test-btn" onclick="answer(9,'no')">否</button>
+      </div>
+    </div>
+    <div class="test-item" data-q="10">
+      <div class="test-text">10. 晚上入睡困难或睡眠质量差</div>
+      <div class="test-btns">
+        <button class="test-btn" onclick="answer(10,'yes')">是</button>
+        <button class="test-btn" onclick="answer(10,'no')">否</button>
+      </div>
+    </div>
+  </div>
+  <div class="test-result" id="testResult">
+    <div class="result-score" id="resultScore">0</div>
+    <div class="result-label" id="resultLabel">—</div>
+    <div class="result-desc" id="resultDesc">—</div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="section cta-section">
+  <h2 class="cta-title fade-in">你的37万亿个细胞<br>每天都在为你工作</h2>
+  <p class="cta-subtitle fade-in">
+    干细胞 = 万能修理工<br>
+    免疫细胞 = 保安部队<br>
+    存储 = 趁年轻把最好的"备用零件"冷冻存起来
+  </p>
+  <a class="cta-btn fade-in" href="tel:17653545120">📞 立即咨询细胞存储</a>
+  <div class="phone-box fade-in">
+    电话：<a href="tel:17653545120">17653545120</a><br>
+    微信：同手机号
+  </div>
+  <p style="margin-top:40px; font-size:12px; color:rgba(144,202,249,0.5);">
+    本科普由生命方舟（更名中）编制<br>
+    如有疑问，欢迎咨询您的健康顾问
+  </p>
+</section>
+
+<script>
+// 粒子背景
+(function() {
+  const container = document.getElementById('particles');
+  for (let i = 0; i < 25; i++) {
+    const p = document.createElement('div');
+    p.className = 'particle';
+    const size = Math.random() * 6 + 2;
+    p.style.width = size + 'px';
+    p.style.height = size + 'px';
+    p.style.left = Math.random() * 100 + '%';
+    p.style.top = Math.random() * 100 + '%';
+    p.style.animationDelay = Math.random() * 8 + 's';
+    p.style.animationDuration = (Math.random() * 6 + 6) + 's';
+    container.appendChild(p);
+  }
+})();
+
+// 滚动动画观察器
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.15 });
+
+document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+
+// 数字滚动动画
+function animateCount(el) {
+  const target = parseInt(el.dataset.target);
+  const suffix = el.dataset.suffix || '';
+  const duration = 2000;
+  const start = performance.now();
+  
+  function update(now) {
+    const elapsed = now - start;
+    const progress = Math.min(elapsed / duration, 1);
+    const eased = 1 - Math.pow(1 - progress, 3);
+    const current = Math.floor(eased * target);
+    
+    if (target >= 1000) {
+      el.textContent = current.toLocaleString() + suffix;
+    } else {
+      el.textContent = current + suffix;
+    }
+    
+    if (progress < 1) requestAnimationFrame(update);
+  }
+  requestAnimationFrame(update);
+}
+
+// 数字元素进入视口时触发
+const numObserver = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting && !entry.target.classList.contains('counted')) {
+      entry.target.classList.add('counted');
+      if (entry.target.dataset.target) {
+        animateCount(entry.target);
+      }
+    }
+  });
+}, { threshold: 0.5 });
+
+document.querySelectorAll('.count-up').forEach(el => numObserver.observe(el));
+
+// 自测逻辑
+const answers = {};
+function answer(q, val) {
+  answers[q] = val;
+  const item = document.querySelector(`.test-item[data-q="${q}"]`);
+  const btns = item.querySelectorAll('.test-btn');
+  btns.forEach(b => {
+    b.classList.remove('selected-yes', 'selected-no');
+    if (b.textContent === '是' && val === 'yes') b.classList.add('selected-yes');
+    if (b.textContent === '否' && val === 'no') b.classList.add('selected-no');
+  });
+  item.classList.remove('active-yes', 'active-no');
+  item.classList.add(val === 'yes' ? 'active-yes' : 'active-no');
+  
+  // 检查是否全部答完
+  const answered = Object.keys(answers).length;
+  if (answered >= 10) {
+    showResult();
+  }
+}
+
+function showResult() {
+  let score = 0;
+  for (let q = 1; q <= 10; q++) {
+    if (answers[q] === 'yes') score++;
+  }
+  
+  const result = document.getElementById('testResult');
+  const scoreEl = document.getElementById('resultScore');
+  const labelEl = document.getElementById('resultLabel');
+  const descEl = document.getElementById('resultDesc');
+  
+  scoreEl.textContent = score + '分';
+  
+  if (score <= 2) {
+    labelEl.textContent = '🟢 优秀 — 你的细胞状态很好';
+    labelEl.style.color = '#4caf50';
+    descEl.textContent = '继续保持！建议进行预防性细胞存储，为未来备份最佳状态。';
+  } else if (score <= 5) {
+    labelEl.textContent = '🟡 亚健康 — 黄金干预期';
+    labelEl.style.color = '#ffc107';
+    descEl.textContent = '细胞已经开始报警。调整生活方式，建议咨询细胞健康管理方案。这是最容易逆转的阶段。';
+  } else if (score <= 8) {
+    labelEl.textContent = '🔴 损伤风险 — 需要尽快干预';
+    labelEl.style.color = '#ff9800';
+    descEl.textContent = '细胞功能已显著下降。建议立即进行专业细胞评估，制定干预方案。';
+  } else {
+    labelEl.textContent = '⚫ 高风险 — 强烈建议立即行动';
+    labelEl.style.color = '#f44336';
+    descEl.textContent = '多项细胞健康指标亮红灯。建议尽快进行全面细胞检测和专业干预。';
+  }
+  
+  result.classList.add('show');
+  result.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+</script>
+
+</body>
+</html>
